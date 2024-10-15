@@ -50,12 +50,6 @@ app.transaction("/purchase/:cid", async (c) => {
 app.frame("/complete/:cid", async (c) => {
 	const supabase = createClient();
 	const { transactionId } = c;
-	const { data } = await pinata.gateways.get(c.req.param("cid"));
-	const frameInfo = data as unknown as FrameCID;
-	const fileUrl = await pinata.gateways.createSignedURL({
-		cid: frameInfo.file,
-		expires: 5000,
-	});
 
 	if (!transactionId) {
 		return c.res({
@@ -107,9 +101,9 @@ app.frame("/complete/:cid", async (c) => {
 			</div>
 		),
 		intents: [
-			<Button.Link key="1" href={fileUrl}>
+			<Button key="1" action={`/redeem/${c.req.query("cid")}`}>
 				Redeem File
-			</Button.Link>,
+			</Button>,
 		],
 	});
 });
