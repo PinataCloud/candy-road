@@ -100,7 +100,7 @@ app.frame("/complete/:cid", async (c) => {
 			</div>
 		),
 		intents: [
-			<Button key="1" action={`/redeem/${c.req.query("cid")}`}>
+			<Button key="1" action={`/redeem/${c.req.param("cid")}`}>
 				Redeem File
 			</Button>,
 		],
