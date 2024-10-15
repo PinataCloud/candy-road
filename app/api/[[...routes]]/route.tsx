@@ -6,7 +6,8 @@ import { createClient } from "@/utils/supabase/server";
 
 const app = new Frog({
 	basePath: "/api/frame",
-	title: "Frog Frame",
+	hub: { apiUrl: "https://hub.pinata.cloud" },
+	title: "CandyRoad",
 });
 
 type FrameCID = {
@@ -52,7 +53,6 @@ app.frame("/complete/:cid", async (c) => {
 
 	if (!transactionId) {
 		return c.res({
-			action: "/",
 			image: (
 				<div style={{ color: "white", display: "flex", fontSize: 60 }}>
 					Transaction incomplete
