@@ -123,14 +123,14 @@ export function CreateFrame() {
 						/>
 						<FormItem>
 							<FormLabel>Cover Image</FormLabel>
-							<Input type="file" onChange={fileHandle} />
+							<Input type="file" onChange={imageHandle} />
 							<FormDescription>
 								Image preview that will show in the frame
 							</FormDescription>
 						</FormItem>
 						<FormItem>
 							<FormLabel>File</FormLabel>
-							<Input type="file" onChange={imageHandle} />
+							<Input type="file" onChange={fileHandle} />
 							<FormDescription>File you want to sell</FormDescription>
 						</FormItem>
 						<FormField
