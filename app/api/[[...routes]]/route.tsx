@@ -6,7 +6,6 @@ import { createClient } from "@/utils/supabase/server";
 
 const app = new Frog({
 	basePath: "/api/frame",
-	hub: { apiUrl: "https://hub.pinata.cloud" },
 	title: "CandyRoad",
 });
 
