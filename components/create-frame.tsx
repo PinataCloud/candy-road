@@ -25,10 +25,13 @@ import {
 import { Input } from "@/components/ui/input";
 import { usePrivy } from "@privy-io/react-auth";
 import { pinata } from "@/utils/pinata";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
-export function CreateFrame() {
+export function CreateFrame({ getFrames }: any) {
 	const [image, setImage] = useState<File>();
 	const [file, setFile] = useState<File>();
+	const [loading, setLoading] = useState(false);
+	const [open, setOpen] = useState(false);
 	const { getAccessToken, user } = usePrivy();
 	const userAddress = user?.wallet?.address;
 
@@ -54,6 +57,7 @@ export function CreateFrame() {
 	};
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
+		setLoading(true);
 		const token = await getAccessToken();
 		if (!file || !image) {
 			alert("Select a file");
@@ -65,42 +69,50 @@ export function CreateFrame() {
 			return;
 		}
 
-		const keyRequest = await fetch("/api/key", {
-			method: "GET",
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-		const keyData = await keyRequest.json();
-		const { cid: fileCid } = await pinata.upload.file(file).key(keyData.JWT);
-		const { cid: imageCid } = await pinata.upload
-			.file(image)
-			.key(keyData.JWT)
-			.group(process.env.NEXT_PUBLIC_GROUP_ID!);
+		try {
+			const keyRequest = await fetch("/api/key", {
+				method: "GET",
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			const keyData = await keyRequest.json();
+			const { cid: fileCid } = await pinata.upload.file(file).key(keyData.JWT);
+			const { cid: imageCid } = await pinata.upload
+				.file(image)
+				.key(keyData.JWT)
+				.group(process.env.NEXT_PUBLIC_GROUP_ID!);
 
-		const data = JSON.stringify({
-			name: values.name,
-			image: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/files/${imageCid}`,
-			file: fileCid,
-			address: values.address,
-			price: values.price,
-			userId: user?.id,
-		});
+			const data = JSON.stringify({
+				name: values.name,
+				image: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/files/${imageCid}`,
+				file: fileCid,
+				address: values.address,
+				price: values.price,
+				userId: user?.id,
+			});
 
-		const createFrameRequest = await fetch("/api/create", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-			body: data,
-		});
-		const createdFrame = await createFrameRequest.json();
-		console.log(createdFrame);
+			const createFrameRequest = await fetch("/api/create", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+				body: data,
+			});
+			const createdFrame = await createFrameRequest.json();
+			console.log(createdFrame);
+			setLoading(false);
+			setOpen(false);
+			await getFrames();
+		} catch (error) {
+			console.log(error);
+			setLoading(false);
+		}
 	}
 
 	return (
-		<Dialog>
+		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button>Create Frame</Button>
 			</DialogTrigger>
@@ -167,7 +179,14 @@ export function CreateFrame() {
 								</FormItem>
 							)}
 						/>
-						<Button type="submit">Submit</Button>
+						{loading ? (
+							<Button disabled>
+								<ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+								Creating Frame...
+							</Button>
+						) : (
+							<Button type="submit">Submit</Button>
+						)}
 					</form>
 				</Form>
 			</DialogContent>

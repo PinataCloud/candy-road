@@ -1,5 +1,6 @@
-import { NextResponse, NextRequest } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { pinata } from "@/utils/pinata";
+import type { UpdateFileOptions } from "pinata";
 import { verifySession } from "@/utils/session";
 
 export async function POST(request: NextRequest) {
@@ -23,8 +24,15 @@ export async function POST(request: NextRequest) {
 				userId: body.userId,
 			})
 			.addMetadata({
-				name: body.userId,
+				name: body.name,
 			});
+		await pinata.files.update({
+			id: json.id,
+			keyvalues: {
+				userId: body.userId,
+				image: body.image,
+			},
+		});
 		return NextResponse.json(json.cid, { status: 200 });
 	} catch (e) {
 		console.log(e);

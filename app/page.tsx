@@ -3,7 +3,7 @@ import { FrameGrid } from "@/components/frame-grid";
 
 export default function Home() {
 	return (
-		<div className="min-h-screen flex flex-col items-center justify-center">
+		<div className="min-h-screen flex flex-col items-center justify-start mt-12">
 			<h1>Candy Road</h1>
 			<LoginButton />
 			<FrameGrid />
