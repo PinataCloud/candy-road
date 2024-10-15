@@ -24,7 +24,7 @@ app.frame("/:cid", async (c) => {
 	const frameInfo = data as unknown as FrameCID;
 	return c.res({
 		action: `/complete/${c.req.param("cid")}`,
-		image: frameInfo?.image,
+		image: frameInfo?.image || "https://snippets.so/og.png",
 		intents: [
 			<Button.Transaction key="1" target={`/purchase/${c.req.param("cid")}`}>
 				Buy
@@ -50,6 +50,12 @@ app.transaction("/purchase/:cid", async (c) => {
 app.frame("/complete/:cid", async (c) => {
 	const supabase = createClient();
 	const { transactionId } = c;
+	const { data } = await pinata.gateways.get(c.req.param("cid"));
+	const frameInfo = data as unknown as FrameCID;
+	const fileUrl = await pinata.gateways.createSignedURL({
+		cid: frameInfo.file,
+		expires: 5000,
+	});
 
 	if (!transactionId) {
 		return c.res({
@@ -100,7 +106,11 @@ app.frame("/complete/:cid", async (c) => {
 				Transaction Complete!
 			</div>
 		),
-		intents: [<Button key="1">Redeem File</Button>],
+		intents: [
+			<Button.Link key="1" href={fileUrl}>
+				Redeem File
+			</Button.Link>,
+		],
 	});
 });
 
@@ -125,7 +135,7 @@ app.frame("/redeem/:cid", async (c) => {
 			action: "/",
 			image: (
 				<div style={{ color: "white", display: "flex", fontSize: 60 }}>
-					Error adding record
+					Unauthorized
 				</div>
 			),
 			intents: [
