@@ -21,7 +21,7 @@ app.frame("/:cid", async (c) => {
 	const { data } = await pinata.gateways.get(c.req.param("cid"));
 	const frameInfo = data as unknown as FrameCID;
 	return c.res({
-		action: "/complete/:cid",
+		action: `/complete/${c.req.param("cid")}`,
 		image: frameInfo?.image,
 		intents: [
 			<Button.Transaction key="1" target={`/purchase/${c.req.param("cid")}`}>
