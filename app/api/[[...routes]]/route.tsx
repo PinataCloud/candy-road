@@ -24,7 +24,7 @@ app.frame("/:cid", async (c) => {
 	const frameInfo = data as unknown as FrameCID;
 	return c.res({
 		action: `/complete/${c.req.param("cid")}`,
-		image: frameInfo?.image || "https://snippets.so/og.png",
+		image: frameInfo?.image,
 		intents: [
 			<Button.Transaction key="1" target={`/purchase/${c.req.param("cid")}`}>
 				Buy

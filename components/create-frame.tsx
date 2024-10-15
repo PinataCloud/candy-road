@@ -104,6 +104,7 @@ export function CreateFrame({ getFrames }: any) {
 			console.log(createdFrame);
 			setLoading(false);
 			setOpen(false);
+			form.reset();
 			await getFrames();
 		} catch (error) {
 			console.log(error);
