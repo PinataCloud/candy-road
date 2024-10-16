@@ -115,7 +115,7 @@ app.frame("/complete/:cid", async (c) => {
 
 	if (!dcReq.ok) {
 		const dcRes = await dcReq.json();
-		throw Error(`Problem sending DC: ${dcRes}`);
+		console.log(dcRes);
 	}
 
 	return c.res({
