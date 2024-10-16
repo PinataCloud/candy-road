@@ -19,16 +19,17 @@ type FrameCID = {
 };
 
 app.frame("/:cid", async (c) => {
-	const { data } = await pinata.gateways.get(c.req.param("cid"));
+	const cid = c.req.param("cid");
+	const { data } = await pinata.gateways.get(cid);
 	const frameInfo = data as unknown as FrameCID;
 	return c.res({
-		action: `/complete/${c.req.param("cid")}`,
+		action: `/complete/${cid}`,
 		image: frameInfo?.image,
 		intents: [
-			<Button.Transaction key="1" target={`/purchase/${c.req.param("cid")}`}>
+			<Button.Transaction key="1" target={`/purchase/${cid}`}>
 				Buy
 			</Button.Transaction>,
-			<Button key="2" action={`/redeem/${c.req.param("cid")}`}>
+			<Button key="2" action={`/redeem/${cid}`}>
 				Redeem
 			</Button>,
 		],
@@ -36,7 +37,8 @@ app.frame("/:cid", async (c) => {
 });
 
 app.transaction("/purchase/:cid", async (c) => {
-	const { data } = await pinata.gateways.get(c.req.param("cid"));
+	const cid = c.req.param("cid");
+	const { data } = await pinata.gateways.get(cid);
 	const frameInfo = data as unknown as FrameCID;
 
 	return c.send({
@@ -47,18 +49,20 @@ app.transaction("/purchase/:cid", async (c) => {
 });
 
 app.frame("/complete/:cid", async (c) => {
+	const cid = c.req.param("cid");
 	const supabase = createClient();
 	const { transactionId } = c;
 
 	if (!transactionId) {
 		return c.res({
+			action: `/complete/${cid}`,
 			image: (
 				<div style={{ color: "white", display: "flex", fontSize: 60 }}>
 					Transaction incomplete
 				</div>
 			),
 			intents: [
-				<Button.Transaction key="1" target={`/purchase/${c.req.param("cid")}`}>
+				<Button.Transaction key="1" target={`/purchase/${cid}`}>
 					Buy
 				</Button.Transaction>,
 			],
@@ -78,14 +82,14 @@ app.frame("/complete/:cid", async (c) => {
 
 	if (error) {
 		return c.res({
-			action: "/",
+			action: `/complete/${c.req.param("cid")}`,
 			image: (
 				<div style={{ color: "white", display: "flex", fontSize: 60 }}>
 					Error adding record
 				</div>
 			),
 			intents: [
-				<Button.Transaction key="1" target={`/purchase/${c.req.param("cid")}`}>
+				<Button.Transaction key="1" target={`/purchase/${cid}`}>
 					Buy
 				</Button.Transaction>,
 			],
@@ -93,14 +97,14 @@ app.frame("/complete/:cid", async (c) => {
 	}
 
 	return c.res({
-		action: `/redeem/${c.req.param("cid")}`,
+		action: `/redeem/${cid}`,
 		image: (
 			<div style={{ color: "white", display: "flex", fontSize: 60 }}>
 				Transaction Complete!
 			</div>
 		),
 		intents: [
-			<Button key="1" action={`/redeem/${c.req.param("cid")}`}>
+			<Button key="1" action={`/redeem/${cid}`}>
 				Redeem File
 			</Button>,
 		],
@@ -108,31 +112,32 @@ app.frame("/complete/:cid", async (c) => {
 });
 
 app.frame("/redeem/:cid", async (c) => {
+	const cid = c.req.param("cid");
 	const supabase = createClient();
-	const { data } = await pinata.gateways.get(c.req.param("cid"));
+	const { data } = await pinata.gateways.get(cid);
 	const frameInfo = data as unknown as FrameCID;
 	const fileUrl = await pinata.gateways.createSignedURL({
 		cid: frameInfo.file,
-		expires: 5000,
+		expires: 45,
 	});
 
 	const { data: rows, error } = await supabase
 		.from("purchases")
 		.select("*")
 		.eq("buyer_id", c.frameData?.fid)
-		.eq("cid", c.req.param("cid"));
+		.eq("cid", cid);
 	console.log(rows);
 
 	if (error || rows.length === 0) {
 		return c.res({
-			action: "/",
+			action: `/complete/${cid}`,
 			image: (
 				<div style={{ color: "white", display: "flex", fontSize: 60 }}>
 					Unauthorized
 				</div>
 			),
 			intents: [
-				<Button.Transaction key="1" target={`/purchase/${c.req.param("cid")}`}>
+				<Button.Transaction key="1" target={`/purchase/${cid}`}>
 					Buy
 				</Button.Transaction>,
 			],

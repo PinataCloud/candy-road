@@ -17,8 +17,6 @@ import {
 import {
 	Dialog,
 	DialogContent,
-	DialogDescription,
-	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
@@ -37,7 +35,9 @@ export function CreateFrame({ getFrames }: any) {
 
 	const formSchema = z.object({
 		price: z.string(),
-		address: z.string(),
+		address: z.string().min(42, {
+			message: "Address cannot be empty",
+		}),
 		name: z.string(),
 	});
 
@@ -118,6 +118,7 @@ export function CreateFrame({ getFrames }: any) {
 				<Button>Create Frame</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-md">
+				<DialogTitle>Create a Frame</DialogTitle>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 						<FormField

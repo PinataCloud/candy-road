@@ -90,7 +90,7 @@ export function FrameGrid() {
 									size="icon"
 									onClick={() =>
 										copyToClipboard(
-											`https://candy-road.vercel.app/api/frame/${frame.cid}`,
+											`https://www.candyroad.cloud/api/frame/${frame.cid}`,
 											frame.id,
 										)
 									}
