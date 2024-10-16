@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { pinata } from "@/utils/pinata";
-import type { UpdateFileOptions } from "pinata";
 import { verifySession } from "@/utils/session";
 
 export async function POST(request: NextRequest) {
