@@ -81,7 +81,7 @@ export function CreateFrame({ getFrames }: any) {
 			const { cid: imageCid } = await pinata.upload
 				.file(image)
 				.key(keyData.JWT)
-				.group(process.env.NEXT_PUBLIC_GROUP_ID!);
+				.group("0192868e-6144-7685-9fc5-af68a1e48f29");
 
 			const data = JSON.stringify({
 				name: values.name,
