@@ -23,6 +23,7 @@ app.frame("/:cid", async (c) => {
 	const { data } = await pinata.gateways.get(cid);
 	const frameInfo = data as unknown as FrameCID;
 	return c.res({
+		title: frameInfo.name,
 		action: `/complete/${cid}`,
 		image: frameInfo?.image,
 		intents: [
@@ -94,6 +95,27 @@ app.frame("/complete/:cid", async (c) => {
 				</Button.Transaction>,
 			],
 		});
+	}
+
+	const dcReq = await fetch(
+		"https://api.warpcast.com/v2/ext-send-direct-cast",
+		{
+			method: "PUT",
+			headers: {
+				Authorization: `Bearer ${process.env.WARPCAST_API_KEY}`,
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				recipientFid: c.frameData?.fid,
+				message: `Thank you for using CandyRoad! Your content can be downloaded any time with the frame attached to this message. https://www.candyroad.cloud/api/frame/${cid}`,
+				idempotencyKey: crypto.randomUUID().toString(),
+			}),
+		},
+	);
+
+	if (!dcReq.ok) {
+		const dcRes = await dcReq.json();
+		throw Error(`Problem sending DC: ${dcRes}`);
 	}
 
 	return c.res({
