@@ -26,6 +26,9 @@ app.frame("/:cid", async (c) => {
 		title: frameInfo.name,
 		action: `/complete/${cid}`,
 		image: frameInfo?.image,
+		headers: {
+			"cache-control": "max-age=0",
+		},
 		intents: [
 			<Button.Transaction key="1" target={`/purchase/${cid}`}>
 				Buy
