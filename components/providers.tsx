@@ -11,7 +11,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 				appearance: {
 					theme: "light",
 					accentColor: "#676FFF",
-					logo: "https://snippets.so/og.png",
+					logo: "https://candyroad.cloud/og.png",
 				},
 				loginMethods: ["farcaster", "wallet"],
 			}}
