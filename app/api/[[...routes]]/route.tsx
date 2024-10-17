@@ -31,7 +31,7 @@ app.frame("/:cid", async (c) => {
 		},
 		intents: [
 			<Button.Transaction key="1" target={`/purchase/${cid}`}>
-				Buy
+				{frameInfo.price} Ξ
 			</Button.Transaction>,
 			<Button key="2" action={`/redeem/${cid}`}>
 				Redeem
