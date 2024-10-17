@@ -8,6 +8,7 @@ import { Card } from "./ui/card";
 import type { FileListItem } from "pinata";
 import { ClipboardCopyIcon, CheckIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
+import Image from "next/image";
 
 export function FrameGrid() {
 	const [frames, setFrames] = useState([]);
@@ -134,14 +135,16 @@ export function FrameGrid() {
 										}
 									>
 										{copiedStates[frame.id] ? (
-											<CheckIcon className="h-4 w-4" />
+											<CheckIcon className="h-4 w-4 text-pu" />
 										) : (
 											<ClipboardCopyIcon className="h-4 w-4" />
 										)}
 									</Button>
 								</div>
 							</div>
-							<img
+							<Image
+								width={512}
+								height={512}
 								className="aspect-video object-cover"
 								src={frame.keyvalues.image}
 								alt={frame.name as string}
