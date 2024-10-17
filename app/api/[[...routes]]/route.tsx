@@ -3,6 +3,7 @@ import { Button, Frog, parseEther } from "frog";
 import { handle } from "frog/next";
 import { pinata } from "@/utils/pinata";
 import { createClient } from "@/utils/supabase/server";
+import { validateFrameMessage } from "@/utils/verifyFrame";
 
 const app = new Frog({
 	basePath: "/api/frame",
@@ -137,6 +138,8 @@ app.frame("/complete/:cid", async (c) => {
 });
 
 app.frame("/redeem/:cid", async (c) => {
+	const body = await c.req.json();
+	const verification = await validateFrameMessage(body);
 	const cid = c.req.param("cid");
 	const supabase = createClient();
 	const { data } = await pinata.gateways.get(cid);
@@ -153,7 +156,7 @@ app.frame("/redeem/:cid", async (c) => {
 		.eq("cid", cid);
 	console.log(rows);
 
-	if (error || rows.length === 0) {
+	if (error || rows.length === 0 || !verification.isValid) {
 		return c.res({
 			action: `/complete/${cid}`,
 			image: (
