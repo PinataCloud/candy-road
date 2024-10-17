@@ -6,7 +6,6 @@ const PRIVY_PUBLIC_KEY =
 	"";
 
 export const verifySession = async (token: string) => {
-	console.log({ token });
 	try {
 		const verificationKey = await jose.importSPKI(PRIVY_PUBLIC_KEY, "ES256");
 		const payload = await jose.jwtVerify(token, verificationKey, {

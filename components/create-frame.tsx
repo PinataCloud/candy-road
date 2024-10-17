@@ -154,9 +154,11 @@ export function CreateFrame({ getFrames }: any) {
 								<FormItem>
 									<FormLabel>Price</FormLabel>
 									<FormControl>
-										<Input placeholder="0.005" {...field} />
+										<Input type="number" placeholder="0.005" {...field} />
 									</FormControl>
-									<FormDescription>Price of the file in Eth</FormDescription>
+									<FormDescription>
+										Price of the file in Eth on 🔵 Base
+									</FormDescription>
 									<FormMessage />
 								</FormItem>
 							)}
@@ -182,12 +184,14 @@ export function CreateFrame({ getFrames }: any) {
 							)}
 						/>
 						{loading ? (
-							<Button disabled>
+							<Button className="w-full" disabled>
 								<ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
 								Creating Frame...
 							</Button>
 						) : (
-							<Button type="submit">Submit</Button>
+							<Button className="w-full" type="submit">
+								Submit
+							</Button>
 						)}
 					</form>
 				</Form>

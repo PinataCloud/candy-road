@@ -166,7 +166,7 @@ app.frame("/redeem/:cid", async (c) => {
 			),
 			intents: [
 				<Button.Transaction key="1" target={`/purchase/${cid}`}>
-					Buy
+					{frameInfo.price} Ξ
 				</Button.Transaction>,
 			],
 		});

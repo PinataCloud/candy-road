@@ -80,6 +80,9 @@ export function FrameGrid() {
 		<div className="flex flex-col gap-12">
 			<CreateFrame getFrames={getFrames} />
 			<div className="flex flex-col gap-4">
+				{frames.length === 0 && (
+					<p className="font-bold text-lg">Make your first frame!</p>
+				)}
 				{frames &&
 					frames.length > 0 &&
 					frames.map((frame: FileListItem) => (
