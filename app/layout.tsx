@@ -52,8 +52,8 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<Analytics />
 			<body className={`${neue.variable} antialiased`}>
+				<Analytics />
 				<Providers>
 					{children}
 					<Toaster />
