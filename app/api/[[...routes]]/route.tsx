@@ -4,6 +4,13 @@ import { handle } from "frog/next";
 import { pinata } from "@/utils/pinata";
 import { createClient } from "@/utils/supabase/server";
 import { validateFrameMessage } from "@/utils/verifyFrame";
+import { createPublicClient, http } from "viem";
+import { base } from "viem/chains";
+
+const publicClient = createPublicClient({
+	chain: base,
+	transport: http(process.env.ALCHEMY_URL),
+});
 
 const app = new Frog({
 	basePath: "/api/frame",
@@ -57,8 +64,11 @@ app.frame("/complete/:cid", async (c) => {
 	const cid = c.req.param("cid");
 	const supabase = createClient();
 	const { transactionId } = c;
+	const transaction = await publicClient.waitForTransactionReceipt({
+		hash: transactionId!,
+	});
 
-	if (!transactionId) {
+	if (transaction.status !== "success") {
 		return c.res({
 			action: `/complete/${cid}`,
 			image:
