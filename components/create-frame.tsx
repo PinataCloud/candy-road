@@ -169,13 +169,18 @@ export function CreateFrame({ getFrames }: any) {
 							<FormLabel>Cover Image</FormLabel>
 							<Input type="file" onChange={imageHandle} />
 							<FormDescription>
-								Image preview that will show in the frame
+								Image preview that will show in the frame. This will be public
+								and should not be the same image as the file you are trying to
+								sell!
 							</FormDescription>
 						</FormItem>
 						<FormItem>
 							<FormLabel>File</FormLabel>
 							<Input type="file" onChange={fileHandle} />
-							<FormDescription>File you want to sell</FormDescription>
+							<FormDescription>
+								File you want to sell; this will only be accessible by people
+								who purchase it
+							</FormDescription>
 						</FormItem>
 						<FormField
 							control={form.control}
