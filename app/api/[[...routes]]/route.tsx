@@ -47,7 +47,7 @@ app.transaction("/purchase/:cid", async (c) => {
 	const frameInfo = data as unknown as FrameCID;
 
 	return c.send({
-		chainId: "eip155:84532",
+		chainId: "eip155:8453",
 		to: frameInfo.address as `0x`,
 		value: parseEther(frameInfo?.price),
 	});
