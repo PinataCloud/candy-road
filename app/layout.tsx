@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "@/components/providers";
 import { Oswald } from "next/font/google";
+import { Toaster } from "@/components/ui/toaster";
 
 const neue = localFont({
 	src: "./fonts/neue.otf",
@@ -52,7 +53,10 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body className={`${neue.variable} antialiased`}>
-				<Providers>{children}</Providers>
+				<Providers>
+					{children}
+					<Toaster />
+				</Providers>
 			</body>
 		</html>
 	);

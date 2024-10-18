@@ -26,6 +26,7 @@ import { Input } from "@/components/ui/input";
 import { usePrivy } from "@privy-io/react-auth";
 import { pinata } from "@/utils/pinata";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { useToast } from "@/hooks/use-toast";
 
 export function CreateFrame({ getFrames }: any) {
 	const [image, setImage] = useState<File>();
@@ -33,6 +34,7 @@ export function CreateFrame({ getFrames }: any) {
 	const [loading, setLoading] = useState(false);
 	const [open, setOpen] = useState(false);
 	const { getAccessToken, user } = usePrivy();
+	const { toast } = useToast();
 	const userAddress = user?.wallet?.address;
 
 	const formSchema = z.object({
@@ -62,12 +64,22 @@ export function CreateFrame({ getFrames }: any) {
 		setLoading(true);
 		const token = await getAccessToken();
 		if (!file || !image) {
-			alert("Select a file");
+			toast({
+				title: "Select a File",
+				description: "Cover image an file to sell cannot be empty",
+				variant: "destructive",
+			});
+			setLoading(false);
 			return;
 		}
 
 		if (!user?.id) {
-			alert("Issue with login");
+			toast({
+				title: "Issue with login",
+				description: "Please try logging out and logging back in",
+				variant: "destructive",
+			});
+			setLoading(false);
 			return;
 		}
 
@@ -106,9 +118,18 @@ export function CreateFrame({ getFrames }: any) {
 			console.log(createdFrame);
 			setLoading(false);
 			setOpen(false);
+			toast({
+				title: "Frame created!",
+				description: "Copy the link and share on Farcaster!",
+			});
 			form.reset();
 			await getFrames();
 		} catch (error) {
+			toast({
+				title: "Problem creating frame",
+				description: `${error}`,
+				variant: "destructive",
+			});
 			console.log(error);
 			setLoading(false);
 		}
