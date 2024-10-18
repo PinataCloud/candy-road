@@ -14,7 +14,7 @@ export function LoginButton() {
 		<>
 			{!authenticated && (
 				<div className="flex flex-col items-center gap-16 mt-24">
-					<h1 className="text-7xl text-center text-[#6d57ff] font-oswald">
+					<h1 className="sm:text-7xl text-4xl text-center text-[#6d57ff] font-oswald">
 						Sell Your Files <br /> in Frame
 					</h1>
 

@@ -8,7 +8,7 @@ export function Nav() {
 				src="/title.svg"
 				width={800}
 				height={800}
-				className="w-64"
+				className="sm:w-64 w-48 px-2 sm:px-0"
 				alt="title"
 			/>
 			<LoginButton />
