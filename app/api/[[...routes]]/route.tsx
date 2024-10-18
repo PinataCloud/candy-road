@@ -7,9 +7,7 @@ import { validateFrameMessage } from "@/utils/verifyFrame";
 import { createPublicClient, http, isAddressEqual } from "viem";
 import { base } from "viem/chains";
 
-export const config = {
-	runtime: "edge",
-};
+export const runtime = "edge";
 
 const publicClient = createPublicClient({
 	chain: base,
