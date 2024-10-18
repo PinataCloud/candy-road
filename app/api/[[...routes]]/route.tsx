@@ -4,7 +4,7 @@ import { handle } from "frog/next";
 import { pinata } from "@/utils/pinata";
 import { createClient } from "@/utils/supabase/server";
 import { validateFrameMessage } from "@/utils/verifyFrame";
-import { createPublicClient, http, isAddressEqual } from "viem";
+import { createPublicClient, http } from "viem";
 import { base } from "viem/chains";
 
 export const runtime = "edge";
@@ -64,20 +64,13 @@ app.transaction("/purchase/:cid", async (c) => {
 
 app.frame("/complete/:cid", async (c) => {
 	const cid = c.req.param("cid");
-	const { data } = await pinata.gateways.get(cid);
-	const frameInfo = data as unknown as FrameCID;
 	const supabase = createClient();
 	const { transactionId } = c;
 	const transaction = await publicClient.waitForTransactionReceipt({
 		hash: transactionId!,
 	});
 
-	const addressMatch = isAddressEqual(
-		frameInfo.address as `0x`,
-		transaction.to as `0x`,
-	);
-
-	if (transaction.status !== "success" || !addressMatch) {
+	if (transaction.status !== "success") {
 		return c.res({
 			action: `/complete/${cid}`,
 			image:
