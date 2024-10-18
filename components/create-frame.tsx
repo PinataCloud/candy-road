@@ -117,7 +117,7 @@ export function CreateFrame({ getFrames }: any) {
 			<DialogTrigger asChild>
 				<Button className="font-bold text-xl">Create Frame</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-md max-w-sm">
+			<DialogContent className="sm:max-w-md max-w-sm overflow-y-scroll max-h-screen">
 				<DialogTitle>Create a Frame</DialogTitle>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
