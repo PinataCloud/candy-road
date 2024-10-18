@@ -61,11 +61,8 @@ app.frame("/complete/:cid", async (c) => {
 	if (!transactionId) {
 		return c.res({
 			action: `/complete/${cid}`,
-			image: (
-				<div style={{ color: "white", display: "flex", fontSize: 60 }}>
-					Transaction incomplete
-				</div>
-			),
+			image:
+				"https://cdn.candyroad.cloud/files/bafkreihyeglfc7xufywcnlq3wrjxeekzz6ruutk6cuiucwqndkwruouit4?filename=error.png",
 			intents: [
 				<Button.Transaction key="1" target={`/purchase/${cid}`}>
 					Buy
@@ -88,11 +85,8 @@ app.frame("/complete/:cid", async (c) => {
 	if (error) {
 		return c.res({
 			action: `/complete/${c.req.param("cid")}`,
-			image: (
-				<div style={{ color: "white", display: "flex", fontSize: 60 }}>
-					Error adding record
-				</div>
-			),
+			image:
+				"https://cdn.candyroad.cloud/files/bafkreihyeglfc7xufywcnlq3wrjxeekzz6ruutk6cuiucwqndkwruouit4?filename=error.png",
 			intents: [
 				<Button.Transaction key="1" target={`/purchase/${cid}`}>
 					Buy
@@ -124,11 +118,8 @@ app.frame("/complete/:cid", async (c) => {
 
 	return c.res({
 		action: `/redeem/${cid}`,
-		image: (
-			<div style={{ color: "white", display: "flex", fontSize: 60 }}>
-				Transaction Complete!
-			</div>
-		),
+		image:
+			"https://cdn.candyroad.cloud/files/bafkreif5arjjry7ooptfbvigtwz6gzugzsoacos4o2u6v74z5any6qpccm?filename=complete.png",
 		intents: [
 			<Button key="1" action={`/redeem/${cid}`}>
 				Redeem File
@@ -159,11 +150,8 @@ app.frame("/redeem/:cid", async (c) => {
 	if (error || rows.length === 0 || !verification.isValid) {
 		return c.res({
 			action: `/complete/${cid}`,
-			image: (
-				<div style={{ color: "white", display: "flex", fontSize: 60 }}>
-					Unauthorized
-				</div>
-			),
+			image:
+				"https://cdn.candyroad.cloud/files/bafkreid2oevexyvxl5gmcv7t52ke5bwxzswjhbqmrtqho3hk4srwz6wxse?filename=unauthorized.png",
 			intents: [
 				<Button.Transaction key="1" target={`/purchase/${cid}`}>
 					{frameInfo.price} Ξ
@@ -173,11 +161,8 @@ app.frame("/redeem/:cid", async (c) => {
 	}
 
 	return c.res({
-		image: (
-			<div style={{ color: "white", display: "flex", fontSize: 60 }}>
-				Authorized! Download file
-			</div>
-		),
+		image:
+			"https://cdn.candyroad.cloud/files/bafkreihl3imvhbodedeevw2vyzx6og5hctm3uxk4ae3yviwts5bzid2xza?filename=authorized.png",
 		intents: [
 			<Button.Link key="1" href={fileUrl}>
 				Download File
