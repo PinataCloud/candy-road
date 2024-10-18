@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 	title: "CandyRoad",
 	description: "Sell your files through frames",
 	icons: {
-		apple: "/favicon.ico",
+		apple: "/apple-touch-icon.png",
 		shortcut: "/favicon.ico",
 		icon: "/favicon.ico",
 	},
