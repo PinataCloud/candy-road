@@ -17,6 +17,8 @@ import {
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
+	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
@@ -117,8 +119,15 @@ export function CreateFrame({ getFrames }: any) {
 			<DialogTrigger asChild>
 				<Button className="font-bold text-xl">Create Frame</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-md max-w-sm overflow-y-scroll max-h-screen">
-				<DialogTitle>Create a Frame</DialogTitle>
+			<DialogContent className="sm:max-w-md max-w-sm overflow-y-scroll sm:py-6 py-12 max-h-screen">
+				<DialogHeader>
+					<DialogTitle>Create a Frame</DialogTitle>
+					<DialogDescription>
+						Build your by choosing a cover image, the file you want to sell, and
+						a price. Once complete you can copy the frame link or share it to
+						Warpcast!
+					</DialogDescription>
+				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
 						<FormField
