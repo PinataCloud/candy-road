@@ -30,6 +30,7 @@ export async function POST(request: NextRequest) {
 			keyvalues: {
 				userId: body.userId,
 				image: body.image,
+				type: "frame",
 			},
 		});
 		return NextResponse.json(json.cid, { status: 200 });
