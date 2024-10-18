@@ -41,7 +41,7 @@ export const metadata: Metadata = {
 		"fc:frame:button:1:target": "https://www.candyroad.cloud",
 		"fc:frame:button:2": "About",
 		"fc:frame:button:2:action": "link",
-		"fc:frame:button:2:target": "https://pinata.cloud/blog",
+		"fc:frame:button:2:target": "https://bit.ly/4hdWBJY",
 	},
 };
 
