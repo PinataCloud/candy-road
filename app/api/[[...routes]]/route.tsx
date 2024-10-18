@@ -7,6 +7,10 @@ import { validateFrameMessage } from "@/utils/verifyFrame";
 import { createPublicClient, http, isAddressEqual } from "viem";
 import { base } from "viem/chains";
 
+export const config = {
+	runtime: "edge",
+};
+
 const publicClient = createPublicClient({
 	chain: base,
 	transport: http(process.env.ALCHEMY_URL),
