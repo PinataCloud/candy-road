@@ -115,7 +115,7 @@ export function CreateFrame({ getFrames }: any) {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button>Create Frame</Button>
+				<Button className="font-bold text-xl">Create Frame</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-md max-w-sm">
 				<DialogTitle>Create a Frame</DialogTitle>
@@ -184,12 +184,12 @@ export function CreateFrame({ getFrames }: any) {
 							)}
 						/>
 						{loading ? (
-							<Button className="w-full" disabled>
+							<Button className="w-full font-bold text-xl" disabled>
 								<ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
 								Creating Frame...
 							</Button>
 						) : (
-							<Button className="w-full" type="submit">
+							<Button className="font-bold text-xl w-full" type="submit">
 								Submit
 							</Button>
 						)}

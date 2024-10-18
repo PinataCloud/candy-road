@@ -10,7 +10,7 @@ const config: Config = {
 	theme: {
 		extend: {
 			fontFamily: {
-				lobster: ["var(--font-lobster)"],
+				oswald: ["var(--font-oswald)"],
 			},
 			colors: {
 				background: "hsl(var(--background))",

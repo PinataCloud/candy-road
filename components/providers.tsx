@@ -10,8 +10,8 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 				// Customize Privy's appearance in your app
 				appearance: {
 					theme: "light",
-					accentColor: "#676FFF",
-					logo: "https://candyroad.cloud/privy.png",
+					accentColor: "#6d57ff",
+					logo: "/title.svg",
 				},
 				loginMethods: ["farcaster", "wallet"],
 			}}

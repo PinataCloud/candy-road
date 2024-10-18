@@ -2,18 +2,46 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "@/components/providers";
-import { Lobster } from "next/font/google";
+import { Oswald } from "next/font/google";
 
-const lobster = Lobster({
-	weight: "400",
-	subsets: ["latin"],
+const neue = localFont({
+	src: "./fonts/neue.otf",
+	weight: "700",
 	display: "swap",
-	variable: "--font-lobster",
+	variable: "--font-oswald",
 });
 
 export const metadata: Metadata = {
 	title: "CandyRoad",
 	description: "Sell your files through frames",
+	icons: {
+		apple: "/favicon.ico",
+		shortcut: "/favicon.ico",
+		icon: "/favicon.ico",
+	},
+	openGraph: {
+		title: "CandyRoad",
+		description: "Sell your files through frames",
+		url: "https://candyroad.cloud",
+		siteName: "CandyRoad",
+		images: ["https://www.candyroad.cloud/og.png"],
+	},
+	twitter: {
+		card: "summary_large_image",
+		title: "CandyRoad",
+		description: "Sell your files through frames",
+		images: ["https://www.candyroad.cloud/og.png"],
+	},
+	other: {
+		"fc:frame": "vNext",
+		"fc:frame:image": "https://www.candyroad.cloud/og.png",
+		"fc:frame:button:1": "Launch App",
+		"fc:frame:button:1:action": "link",
+		"fc:frame:button:1:target": "https://www.candyroad.cloud",
+		"fc:frame:button:2": "About",
+		"fc:frame:button:2:action": "link",
+		"fc:frame:button:2:target": "https://pinata.cloud/blog",
+	},
 };
 
 export default function RootLayout({
@@ -23,7 +51,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${lobster.variable} antialiased`}>
+			<body className={`${neue.variable} antialiased`}>
 				<Providers>{children}</Providers>
 			</body>
 		</html>

@@ -23,6 +23,7 @@
     "frog": "^0.17.4",
     "lucide-react": "^0.452.0",
     "next": "14.2.15",
+    "next-themes": "^0.3.0",
     "pinata": "^1.5.0",
     "react": "^18",
     "react-dom": "^18",

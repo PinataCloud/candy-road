@@ -77,7 +77,7 @@ export function FrameGrid() {
 	}
 
 	return (
-		<div className="flex flex-col gap-12">
+		<div className="flex flex-col gap-12 mt-12">
 			<CreateFrame getFrames={getFrames} />
 			<div className="flex flex-col gap-4">
 				{frames.length === 0 && (
