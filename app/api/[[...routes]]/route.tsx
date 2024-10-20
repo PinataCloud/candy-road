@@ -70,7 +70,7 @@ app.frame("/:cid", async (c) => {
 		}),
 	});
 	const signRes = await signReq.json();
-	console.log("sign res: ", signRes);
+	console.log("sign res: %s, sign status: %s", signRes, signReq.status);
 	const dataReq = await fetch(signRes.data);
 	const data = await dataReq.json();
 	console.log("data from frame json: ", data);
@@ -230,7 +230,7 @@ app.frame("/redeem/:cid", async (c) => {
 		}),
 	});
 	const signRes = await signReq.json();
-	console.log("sign res: ", signRes);
+	console.log("sign res: %s, sign status: %s", signRes, signReq.status);
 	const dataReq = await fetch(signRes.data);
 	const data = await dataReq.json();
 	console.log("data from frame json: ", data);
