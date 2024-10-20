@@ -109,30 +109,30 @@ app.frame("/complete/:cid/:tx?", async (c) => {
 		});
 	}
 
-	const { data } = await pinata.gateways.get(cid);
-	const frameInfo = data as unknown as FrameCID;
-	const txInfo = await publicClient.getTransaction({ hash: pendingTx });
+	// const { data } = await pinata.gateways.get(cid);
+	// const frameInfo = data as unknown as FrameCID;
+	// const txInfo = await publicClient.getTransaction({ hash: pendingTx });
 
-	const validAddress = isAddressEqual(
-		frameInfo.address as `0x`,
-		txInfo.to as `0x`,
-	);
-	console.log("address check: ", validAddress);
-	const value = formatEther(txInfo.value);
-	console.log("tx check: ", value);
+	// const validAddress = isAddressEqual(
+	// 	frameInfo.address as `0x`,
+	// 	txInfo.to as `0x`,
+	// );
+	// console.log("address check: ", validAddress);
+	// const value = formatEther(txInfo.value);
+	// console.log("tx check: ", value);
 
-	if (!validAddress || frameInfo.price !== value) {
-		return c.res({
-			action: `/complete/${cid}`,
-			image:
-				"https://cdn.candyroad.cloud/files/bafkreid2oevexyvxl5gmcv7t52ke5bwxzswjhbqmrtqho3hk4srwz6wxse?filename=unauthorized.png",
-			intents: [
-				<Button.Transaction key="1" target={`/purchase/${cid}`}>
-					{frameInfo.price} Ξ
-				</Button.Transaction>,
-			],
-		});
-	}
+	// if (!validAddress || frameInfo.price !== value) {
+	// 	return c.res({
+	// 		action: `/complete/${cid}`,
+	// 		image:
+	// 			"https://cdn.candyroad.cloud/files/bafkreid2oevexyvxl5gmcv7t52ke5bwxzswjhbqmrtqho3hk4srwz6wxse?filename=unauthorized.png",
+	// 		intents: [
+	// 			<Button.Transaction key="1" target={`/purchase/${cid}`}>
+	// 				{frameInfo.price} Ξ
+	// 			</Button.Transaction>,
+	// 		],
+	// 	});
+	// }
 
 	const { data: insertRes, error } = await supabase
 		.from("purchases")
