@@ -72,6 +72,7 @@ app.frame("/:cid", async (c) => {
 	const signRes = await signReq.json();
 	console.log("sign res: %s, sign status: %s", signRes, signReq.status);
 	const dataReq = await fetch(signRes.data);
+	console.log("gateway request status: ", dataReq.status);
 	const data = await dataReq.json();
 	console.log("data from frame json: ", data);
 
@@ -232,6 +233,7 @@ app.frame("/redeem/:cid", async (c) => {
 	const signRes = await signReq.json();
 	console.log("sign res: %s, sign status: %s", signRes, signReq.status);
 	const dataReq = await fetch(signRes.data);
+	console.log("Gateway fetch status: ", dataReq.status);
 	const data = await dataReq.json();
 	console.log("data from frame json: ", data);
 	const frameInfo = data as unknown as FrameCID;
