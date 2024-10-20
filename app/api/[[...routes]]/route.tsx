@@ -196,7 +196,25 @@ app.frame("/redeem/:cid", async (c) => {
 	const verification = await validateFrameMessage(body);
 	const cid = c.req.param("cid");
 	const supabase = createClient();
-	const { data } = await pinata.gateways.get(cid);
+	//const { data } = await pinata.gateways.get(cid);
+	const signReq = await fetch("https://api.pinata.cloud/v3/files/sign", {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${process.env.PINATA_JWT}`,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			url: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/files/${cid}`,
+			date: Math.floor(new Date().getTime() / 1000),
+			expires: 30,
+			method: "GET",
+		}),
+	});
+	const signRes = await signReq.json();
+	console.log("sign res: ", signRes);
+	const dataReq = await fetch(signRes.data);
+	const data = await dataReq.json();
+	console.log("data from frame json: ", data);
 	const frameInfo = data as unknown as FrameCID;
 
 	const { data: rows, error } = await supabase
@@ -219,10 +237,26 @@ app.frame("/redeem/:cid", async (c) => {
 		});
 	}
 
-	const fileUrl = await pinata.gateways.createSignedURL({
-		cid: frameInfo.file,
-		expires: 45,
+	// const fileUrl = await pinata.gateways.createSignedURL({
+	// 	cid: frameInfo.file,
+	// 	expires: 45,
+	// });
+
+	const fileUrlReq = await fetch("https://api.pinata.cloud/v3/files/sign", {
+		method: "POST",
+		headers: {
+			Authorization: `Bearer ${process.env.PINATA_JWT}`,
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({
+			url: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/files/${frameInfo.file}`,
+			date: Math.floor(new Date().getTime() / 1000),
+			expires: 45,
+			method: "GET",
+		}),
 	});
+	const fileUrlRes = await fileUrlReq.json();
+	const fileUrl = fileUrlRes.data;
 
 	return c.res({
 		image:
