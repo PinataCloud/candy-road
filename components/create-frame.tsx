@@ -96,7 +96,15 @@ export function CreateFrame({ getFrames }: any) {
 				.file(image)
 				.key(keyData.JWT)
 				.group("0192868e-6144-7685-9fc5-af68a1e48f29");
-
+				if (fileCid === imageCid) {
+			toast({
+				title: "Same File Used",
+				description: "Please select a different file than the cover image.",
+				variant: "destructive",
+			});
+			setLoading(false);
+			return;
+		}
 			const data = JSON.stringify({
 				name: values.name,
 				image: `https://${process.env.NEXT_PUBLIC_GATEWAY_URL}/files/${imageCid}`,
