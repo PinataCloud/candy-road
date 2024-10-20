@@ -4,7 +4,11 @@ import { handle } from "frog/next";
 import { pinata } from "@/utils/pinata";
 import { createClient } from "@/utils/supabase/server";
 import { validateFrameMessage } from "@/utils/verifyFrame";
-import { createPublicClient, http } from "viem";
+import {
+	createPublicClient,
+	type GetTransactionReceiptErrorType,
+	http,
+} from "viem";
 import { base } from "viem/chains";
 
 export const runtime = "edge";
@@ -13,6 +17,25 @@ const publicClient = createPublicClient({
 	chain: base,
 	transport: http(process.env.ALCHEMY_URL),
 });
+
+async function isTransactionPending(txHash: `0x${string}`): Promise<boolean> {
+	try {
+		const receipt = await publicClient.getTransactionReceipt({ hash: txHash });
+
+		console.log(receipt);
+		return false;
+	} catch (e) {
+		const error = e as GetTransactionReceiptErrorType;
+		console.log(error);
+		if (error.name === "TransactionReceiptNotFoundError") {
+			console.log("still pending");
+			return true;
+		}
+
+		// For other types of errors, re-throw
+		throw error;
+	}
+}
 
 const app = new Frog({
 	basePath: "/api/frame",
@@ -62,24 +85,25 @@ app.transaction("/purchase/:cid", async (c) => {
 	});
 });
 
-app.frame("/complete/:cid", async (c) => {
-	const cid = c.req.param("cid");
+app.frame("/complete/:cid/:tx?", async (c) => {
+	const { cid, tx } = c.req.param();
 	const supabase = createClient();
-	const { transactionId } = c;
-	const transaction = await publicClient.waitForTransactionReceipt({
-		hash: transactionId!,
-	});
+	let pendingTx: `0x`;
+	if (tx) {
+		pendingTx = tx as `0x`;
+	} else {
+		pendingTx = c.transactionId as `0x`;
+	}
+	console.log(pendingTx);
 
-	if (transaction.status !== "success") {
+	const isPending = await isTransactionPending(pendingTx);
+
+	if (isPending) {
 		return c.res({
-			action: `/complete/${cid}`,
+			action: `/complete/${cid}/${pendingTx}`,
 			image:
-				"https://cdn.candyroad.cloud/files/bafkreihyeglfc7xufywcnlq3wrjxeekzz6ruutk6cuiucwqndkwruouit4?filename=error.png",
-			intents: [
-				<Button.Transaction key="1" target={`/purchase/${cid}`}>
-					Buy
-				</Button.Transaction>,
-			],
+				"https://cdn.candyroad.cloud/files/bafkreigubqd3ijamk4jerdethgtami346pkybkhgs3g3sgdr34jftp6foi?filename=pending.png",
+			intents: [<Button>Check Status</Button>],
 		});
 	}
 
