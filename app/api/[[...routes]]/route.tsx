@@ -13,7 +13,7 @@ import {
 } from "viem";
 import { base } from "viem/chains";
 
-export const runtime = "edge";
+//export const runtime = "edge";
 
 const publicClient = createPublicClient({
 	chain: base,
@@ -81,9 +81,6 @@ app.frame("/:cid", async (c) => {
 		title: frameInfo.name,
 		action: `/complete/${cid}`,
 		image: frameInfo?.image,
-		headers: {
-			"cache-control": "max-age=0",
-		},
 		intents: [
 			<Button.Transaction key="1" target={`/purchase/${cid}`}>
 				{frameInfo.price} Ξ
