@@ -13,8 +13,6 @@ import {
 } from "viem";
 import { base } from "viem/chains";
 
-export const runtime = "edge";
-
 const publicClient = createPublicClient({
 	chain: base,
 	transport: http(process.env.ALCHEMY_URL),
