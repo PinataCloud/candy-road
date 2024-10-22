@@ -24,15 +24,12 @@ export async function POST(request: NextRequest) {
 			})
 			.addMetadata({
 				name: body.name,
+				keyvalues: {
+					userId: body.userId,
+					image: body.image,
+					type: "frame",
+				},
 			});
-		await pinata.files.update({
-			id: json.id,
-			keyvalues: {
-				userId: body.userId,
-				image: body.image,
-				type: "frame",
-			},
-		});
 		return NextResponse.json(json.cid, { status: 200 });
 	} catch (e) {
 		console.log(e);
