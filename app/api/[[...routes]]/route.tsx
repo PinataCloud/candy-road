@@ -93,6 +93,7 @@ app.frame("/:cid", async (c) => {
 app.transaction("/purchase/:cid", async (c) => {
 	const cid = c.req.param("cid");
 	const { data } = await pinata.gateways.get(cid);
+	console.log(data);
 	const frameInfo = data as unknown as FrameCID;
 
 	return c.send({
