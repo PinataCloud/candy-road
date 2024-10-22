@@ -54,6 +54,7 @@ type FrameCID = {
 app.frame("/:cid", async (c) => {
 	const cid = c.req.param("cid");
 	const { data } = await pinata.gateways.get(cid);
+	console.log(data);
 	// const signReq = await fetch("https://api.pinata.cloud/v3/files/sign", {
 	// 	method: "POST",
 	// 	headers: {
